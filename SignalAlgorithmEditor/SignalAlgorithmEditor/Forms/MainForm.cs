@@ -1,3 +1,4 @@
+using SignalAlgorithmEditor.Forms;
 using SignalAlgorithmEditor.Models;
 using SignalAlgorithmEditor.Services;
 using System.Windows.Forms;
@@ -38,16 +39,33 @@ namespace SignalAlgorithmEditor
         {
             if(dataGridView.DataSource == null)
             {
-                MessageBox.Show("Загрузите данные сигналов", "Ошибка");
+                MessageBox.Show("Загрузите данные сигналов", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (dataGridView.SelectedRows[0] != null)
             {
-                var row = dataGridView.SelectedRows[0];
+                var selectedrow = dataGridView.SelectedRows[0];
+                var selectedSignal = (Signal)selectedrow.DataBoundItem;
+
+                if (selectedSignal == null)
+                {
+                    MessageBox.Show("Не удалось получить данные выбранного сигнала.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                using (var editorForm = new AlgorithmTestForm(DBService, selectedSignal))
+                {
+                    var result = editorForm.ShowDialog();
+
+                    if(result == DialogResult.OK)
+                    {
+                        dataGridView.Refresh();
+                    }
+                }
             }
             else
             {
-                MessageBox.Show("Выберите сигнал", "Ошибка" ,MessageBoxButtons.OK);
+                MessageBox.Show("Выберите сигнал", "Ошибка" ,MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
