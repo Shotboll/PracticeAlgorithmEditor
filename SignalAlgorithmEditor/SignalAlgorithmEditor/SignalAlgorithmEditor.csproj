@@ -8,4 +8,18 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FastColoredTextBox.Net6" Version="1.0.0" />
+    <PackageReference Include="System.Data.OleDb" Version="9.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="db_example.accdb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="db_example.laccdb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
