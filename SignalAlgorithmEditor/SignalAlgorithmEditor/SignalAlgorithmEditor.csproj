@@ -14,6 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DefaultPlugin\DefaultPlugin.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="db_example.accdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
