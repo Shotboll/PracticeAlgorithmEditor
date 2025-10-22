@@ -31,6 +31,8 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AlgorithmTestForm));
             fastColoredTextBox = new FastColoredTextBoxNS.FastColoredTextBox();
+            buttonDebug = new Button();
+            buttonSave = new Button();
             ((System.ComponentModel.ISupportInitialize)fastColoredTextBox).BeginInit();
             SuspendLayout();
             // 
@@ -72,11 +74,33 @@
             fastColoredTextBox.WordWrap = true;
             fastColoredTextBox.Zoom = 100;
             // 
+            // buttonDebug
+            // 
+            buttonDebug.Location = new Point(12, 98);
+            buttonDebug.Name = "buttonDebug";
+            buttonDebug.Size = new Size(110, 28);
+            buttonDebug.TabIndex = 1;
+            buttonDebug.Text = "Отладка";
+            buttonDebug.UseVisualStyleBackColor = true;
+            buttonDebug.Click += buttonDebug_Click;
+            // 
+            // buttonSave
+            // 
+            buttonSave.Location = new Point(128, 98);
+            buttonSave.Name = "buttonSave";
+            buttonSave.Size = new Size(196, 28);
+            buttonSave.TabIndex = 2;
+            buttonSave.Text = "Сохранить изменения в БД";
+            buttonSave.UseVisualStyleBackColor = true;
+            buttonSave.Click += buttonSave_Click;
+            // 
             // AlgorithmTestForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(800, 145);
+            Controls.Add(buttonSave);
+            Controls.Add(buttonDebug);
             Controls.Add(fastColoredTextBox);
             Name = "AlgorithmTestForm";
             Text = "AlgorithmTestForm";
@@ -87,5 +111,7 @@
         #endregion
 
         public FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBox;
+        private Button buttonDebug;
+        private Button buttonSave;
     }
 }

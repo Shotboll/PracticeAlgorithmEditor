@@ -9,6 +9,7 @@ namespace SignalAlgorithmEditor
     public partial class MainForm : Form
     {
         private DatabaseService DBService;
+        public string FilePath = "";
         public MainForm()
         {
             DBService = new DatabaseService();
@@ -30,7 +31,7 @@ namespace SignalAlgorithmEditor
                     selectedFile = dialog.FileName;
                 }
             }
-
+            FilePath = selectedFile;
             var signals = DBService.LoadSignals(selectedFile);
             CreateDataGrid(signals);
         }
@@ -59,7 +60,8 @@ namespace SignalAlgorithmEditor
 
                     if(result == DialogResult.OK)
                     {
-                        dataGridView.Refresh();
+                        var signals = DBService.LoadSignals(FilePath);
+                        CreateDataGrid(signals);
                     }
                 }
             }

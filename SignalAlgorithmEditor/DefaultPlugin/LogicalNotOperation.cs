@@ -18,7 +18,7 @@ namespace DefaultPlugin
             if(operand.Type != ParameterType.Boolean)
                 throw new ArgumentException("Операция '!' применима только к логическим параметрам.");
 
-            bool resultValue = !((int)operand.Value == 1);
+            bool resultValue = !(Convert.ToInt32(operand.Value) == 1);
             int resultState = operand.State;
 
             return new Parameter

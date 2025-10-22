@@ -2,6 +2,7 @@
 using SignalAlgorithmEditor.Models;
 using SignalAlgorithmEditor.Services;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace SignalAlgorithmEditor.Forms
 {
@@ -63,6 +64,31 @@ namespace SignalAlgorithmEditor.Forms
                 // Подсветка чисел (целые и с плавающей точкой)
                 fastColoredTextBox.Range.SetStyle(_numberStyle, @"\b\d+(\.\d+)?\b");
             };
+        }
+
+        private void buttonDebug_Click(object sender, EventArgs e)
+        {
+            using (var debugForm = new DebugForm(fastColoredTextBox.Text))
+            {
+                var result = debugForm.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+
+                }
+            }
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            _dbService.SaveSignal(new Signal
+            {
+                Algorithm = fastColoredTextBox.Text,
+                Code = EditedSignal.Code,
+                Format = EditedSignal.Format,
+            });
+            MessageBox.Show("Алгоритм сохранён в БД");
+            this.DialogResult = DialogResult.OK;
         }
     }
 }
