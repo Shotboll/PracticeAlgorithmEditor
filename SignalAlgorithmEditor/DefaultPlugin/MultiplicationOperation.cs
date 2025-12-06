@@ -35,7 +35,7 @@ namespace DefaultPlugin
 
             if (p.Type == ParameterType.Boolean)
             {
-                double val = (int)p.Value == 1 ? 1.0 : 0.0;
+                double val = Convert.ToInt32(p.Value) == 1 ? 1.0 : 0.0;
                 if (p.State == 1)
                 {
                     numericState = 4;
@@ -50,6 +50,10 @@ namespace DefaultPlugin
             {
                 return p.Type == ParameterType.Integer ? (int)p.Value : (float)p.Value;
             }
+        }
+        public Parameter Execute(Parameter[] args, string callKey, IStateStore stateStore)
+        {
+            return Execute(args); // игнорируем callKey и stateStore
         }
     }
 }

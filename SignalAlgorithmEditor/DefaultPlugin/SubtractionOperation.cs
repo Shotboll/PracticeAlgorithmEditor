@@ -48,5 +48,9 @@ namespace DefaultPlugin
                 return p.Type == ParameterType.Integer ? (int)p.Value : (float)p.Value;
             }
         }
+        public Parameter Execute(Parameter[] args, string callKey, IStateStore stateStore)
+        {
+            return Execute(args); // игнорируем callKey и stateStore
+        }
     }
 }

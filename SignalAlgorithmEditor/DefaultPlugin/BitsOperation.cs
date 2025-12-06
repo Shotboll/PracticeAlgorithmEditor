@@ -60,5 +60,9 @@ namespace DefaultPlugin
 
             return (int)val;
         }
+        public Parameter Execute(Parameter[] args, string callKey, IStateStore stateStore)
+        {
+            return Execute(args); // игнорируем callKey и stateStore
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using SignalAlgorithmEditor.Models;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace SignalAlgorithmEditor.Services
@@ -39,15 +40,15 @@ namespace SignalAlgorithmEditor.Services
                 if(char.IsDigit(currentChar) || currentChar == '.')
                 {
                     var start = position;
-                    while (position < input.Length && (char.IsDigit(input[position]) || input[position] == ','))
+                    while (position < input.Length && (char.IsDigit(input[position]) || input[position] == '.'))
                     {
                         position++;
                     }
                     var numberStr = input.Substring(start, position - start);
                     if (numberStr.Contains('.'))
-                        tokens.Add(new Token(TokenType.Number, float.Parse(numberStr)));
+                        tokens.Add(new Token(TokenType.Number, float.Parse(numberStr, CultureInfo.InvariantCulture)));
                     else
-                        tokens.Add(new Token(TokenType.Number, int.Parse(numberStr)));
+                        tokens.Add(new Token(TokenType.Number, int.Parse(numberStr, CultureInfo.InvariantCulture)));
                     continue;
                 }
 

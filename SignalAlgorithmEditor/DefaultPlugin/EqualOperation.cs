@@ -37,6 +37,10 @@ namespace DefaultPlugin
 
             return new Parameter(ParameterType.Boolean, result ? 1 : 0, resultState);
         }
+        public Parameter Execute(Parameter[] args, string callKey, IStateStore stateStore)
+        {
+            return Execute(args); // игнорируем callKey и stateStore
+        }
 
         private bool IsNumeric(ParameterType t) => t == ParameterType.Analog || t == ParameterType.Integer;
         private double GetNumericValue(Parameter p) => p.Type == ParameterType.Integer ? (int)p.Value : (float)p.Value;

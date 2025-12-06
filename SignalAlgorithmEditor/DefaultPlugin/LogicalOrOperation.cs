@@ -35,5 +35,9 @@ namespace DefaultPlugin
 
             return new Parameter(ParameterType.Boolean, resultValue ? 1 : 0, resultState);
         }
+        public Parameter Execute(Parameter[] args, string callKey, IStateStore stateStore)
+        {
+            return Execute(args); // игнорируем callKey и stateStore
+        }
     }
 }

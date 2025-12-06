@@ -34,5 +34,9 @@ namespace DefaultPlugin
 
             return new Parameter(ParameterType.Analog, resultValue, state);
         }
+        public Parameter Execute(Parameter[] args, string callKey, IStateStore stateStore)
+        {
+            return Execute(args); // игнорируем callKey и stateStore
+        }
     }
 }

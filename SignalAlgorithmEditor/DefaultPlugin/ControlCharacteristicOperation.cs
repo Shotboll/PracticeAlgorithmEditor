@@ -17,5 +17,9 @@ namespace DefaultPlugin
             // Заглушка: возвращаем фиксированное значение 0
             return new Parameter(ParameterType.Analog, 0f, 0);
         }
+        public Parameter Execute(Parameter[] args, string callKey, IStateStore stateStore)
+        {
+            return Execute(args); // игнорируем callKey и stateStore
+        }
     }
 }

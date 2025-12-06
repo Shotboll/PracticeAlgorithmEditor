@@ -29,5 +29,9 @@ namespace DefaultPlugin
             bool result = left >= right;
             return new Parameter(ParameterType.Boolean, result ? 1 : 0, state);
         }
+        public Parameter Execute(Parameter[] args, string callKey, IStateStore stateStore)
+        {
+            return Execute(args); // игнорируем callKey и stateStore
+        }
     }
 }

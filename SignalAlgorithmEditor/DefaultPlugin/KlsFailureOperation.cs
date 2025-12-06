@@ -17,5 +17,9 @@ namespace DefaultPlugin
             // Заглушка: всегда возвращаем "исправен"
             return new Parameter(ParameterType.Boolean, 0, 0);
         }
+        public Parameter Execute(Parameter[] args, string callKey, IStateStore stateStore)
+        {
+            return Execute(args); // игнорируем callKey и stateStore
+        }
     }
 }

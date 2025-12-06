@@ -24,7 +24,9 @@ namespace SignalAlgorithmEditor.Services
             var parser = new Parser(tokens);
             var ast = parser.Parse();
 
-            var evaluator = new Evaluator(context, _operations);
+            var stateStore = new StateStore();
+
+            var evaluator = new Evaluator(context, _operations, stateStore);
             var result = evaluator.Evaluate(ast);
 
             return result;

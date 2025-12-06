@@ -28,5 +28,9 @@ namespace DefaultPlugin
 
             return new Parameter(operand.Type, resultValue, operand.State);
         }
+        public Parameter Execute(Parameter[] args, string callKey, IStateStore stateStore)
+        {
+            return Execute(args); // игнорируем callKey и stateStore
+        }
     }
 }

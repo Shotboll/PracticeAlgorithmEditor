@@ -7,11 +7,13 @@ namespace SignalAlgorithmEditor.Services
     {
         private readonly ExecutionContext _context;
         private readonly Dictionary<string, Contract.IOperation> _operations;
+        private readonly IStateStore _stateStore;
 
-        public Evaluator(ExecutionContext context, Dictionary<string, Contract.IOperation> operations)
+        public Evaluator(ExecutionContext context, Dictionary<string, Contract.IOperation> operations, IStateStore stateStore)
         {
             _context = context;
             _operations = operations;
+            _stateStore = stateStore;
         }
 
         public Parameter Evaluate(ExpressionNode node)
@@ -118,15 +120,16 @@ namespace SignalAlgorithmEditor.Services
         private Parameter EvaluateFunction(FunctionCallNode node)
         {
             var args = new Parameter[node.Arguments.Count];
-            for(int i = 0; i< node.Arguments.Count; i++)
+            for (int i = 0; i < node.Arguments.Count; i++)
             {
                 args[i] = EvaluateNode(node.Arguments[i]);
             }
 
+            // Определяем имя операции для поиска в словаре
             var functionName = node.FunctionName switch
             {
                 "TD" => "TimeDelayOperation",
-                "PREV" => "PreviousValueOperation",
+                "PREV" => "PrevOperation", // ← обязательно совпадает с именем класса в DLL
                 "LN" => "NaturalLogOperation",
                 "PLF" => "PiecewiseLinearFunctionOperation",
                 "SVLD" => "SetValidityOperation",
@@ -137,12 +140,41 @@ namespace SignalAlgorithmEditor.Services
                 _ => throw new InvalidOperationException($"Неизвестная функция: {node.FunctionName}")
             };
 
-            if(!_operations.TryGetValue(functionName, out var operation))
+            if (!_operations.TryGetValue(functionName, out var operation))
             {
                 throw new InvalidOperationException($"Функция '{functionName}' не найдена.");
             }
 
-            return operation.Execute(args);
+            string callKey = GetCallKey(node);
+
+            try
+            {
+                var statefulOp = operation as dynamic;
+                return statefulOp.Execute(args, callKey, _stateStore);
+            }
+            catch (Microsoft.CSharp.RuntimeBinder.RuntimeBinderException)
+            {
+                return operation.Execute(args);
+            }
+        }
+
+        private string GetCallKey(FunctionCallNode node)
+        {
+            var argsStr = string.Join(",", node.Arguments.Select(RenderNode));
+            return $"{node.FunctionName}({argsStr})";
+        }
+
+        private string RenderNode(ExpressionNode? node)
+        {
+            return node switch
+            {
+                IdentifierNode id => id.Name,
+                ConstantNode c => c.Value.ToString(),
+                UnaryOperationNode u => u.Operator + RenderNode(u.Operand),
+                BinaryOperationNode b => $"({RenderNode(b.Left)}{b.Operator}{RenderNode(b.Right)})",
+                FunctionCallNode f => GetCallKey(f),
+                _ => "expr"
+            };
         }
     }
 }
